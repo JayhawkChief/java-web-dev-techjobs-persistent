@@ -43,6 +43,7 @@ public class EmployerController {
 
         Optional<Employer> result = employerRepository.findById(employerId);
         Employer employer = result.get();
+
 //        Optional optEmployer = null;
         if (optEmployer.isPresent()) {
             Employer employer = (Employer) optEmployer.get();
