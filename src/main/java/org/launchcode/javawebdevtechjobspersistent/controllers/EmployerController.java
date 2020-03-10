@@ -18,6 +18,11 @@ public class EmployerController {
     @Autowired
     private EmployerRepository employerRepository;
 
+    @RequestMapping("")
+    public String index(Model model) {
+        model.addAttribute("employers", employerRepository.findAll());
+        return "employers/index";
+    }
 
     @GetMapping("add")
     public String displayAddEmployerForm(Model model) {
@@ -28,7 +33,6 @@ public class EmployerController {
     @PostMapping("add")
     public String processAddEmployerForm(@ModelAttribute @Valid Employer newEmployer,
                                     Errors errors, Model model) {
-
         if (errors.hasErrors()) {
             model.addAttribute("employer", "Add Employer");
             return "employers/add";
@@ -44,9 +48,7 @@ public class EmployerController {
         Optional<Employer> result = employerRepository.findById(employerId);
         Employer employer = result.get();
 
-//        Optional optEmployer = null;
-        if (optEmployer.isPresent()) {
-            Employer employer = (Employer) optEmployer.get();
+        if (result.isPresent()) {
             model.addAttribute("employer", employer);
             return "employers/view";
         } else {

@@ -1,6 +1,5 @@
 package org.launchcode.javawebdevtechjobspersistent.controllers;
 
-import org.launchcode.javawebdevtechjobspersistent.models.Employer;
 import org.launchcode.javawebdevtechjobspersistent.models.Skill;
 import org.launchcode.javawebdevtechjobspersistent.models.data.SkillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,12 @@ public class SkillController {
 
     @Autowired
     private SkillRepository skillRepository;
+
+    @RequestMapping("")
+    public String index(Model model) {
+        model.addAttribute("skills", skillRepository.findAll());
+        return "skills/index";
+    }
 
     @GetMapping("add")
     public String displayAddSkillForm(Model model) {
@@ -40,8 +45,8 @@ public class SkillController {
     public String displayViewSkill(Model model, @PathVariable int skillId) {
         Optional<Skill> result = skillRepository.findById(skillId);
         Skill skill = result.get();
-        if (optEmployer.isPresent()) {
-            Skill skill = (Skill) optEmployer.get();
+
+        if (result.isPresent()) {
             model.addAttribute("skill", skill);
             return "skills/view";
         } else {
