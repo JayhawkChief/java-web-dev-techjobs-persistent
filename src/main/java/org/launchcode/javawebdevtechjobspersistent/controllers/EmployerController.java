@@ -46,9 +46,9 @@ public class EmployerController {
     public String displayViewEmployer(Model model, @PathVariable int employerId) {
 
         Optional<Employer> result = employerRepository.findById(employerId);
-        Employer employer = result.get();
 
         if (result.isPresent()) {
+            Employer employer = result.get();
             model.addAttribute("employer", employer);
             return "employers/view";
         } else {
